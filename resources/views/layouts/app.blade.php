@@ -11,16 +11,21 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('tutorial.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link href="https://bootswatch.com/5/yeti/bootstrap.min.css" rel="stylesheet" />
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('tutorial.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
+    @include('sweetalert::alert')
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -52,6 +57,13 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item" id="dashboard" t-step="1"
+                            t-text="Text for the first step">
+                                <a href="{{route('home')}}" class="nav-link">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{auth()->user()->profile()->exists() ? route('profile.show', ['profile' => auth()->user()->profile->id]) : route('profile.setup')}}" class="nav-link">Profile</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -78,6 +90,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+
     </div>
 </body>
 </html>
